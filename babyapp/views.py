@@ -17,6 +17,9 @@ from django.http import HttpResponse
 from django.core.mail import send_mail
 from babyvaccinepro.settings import EMAIL_HOST_USER
 
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+
 
 
 
@@ -144,10 +147,21 @@ from django_celery_beat.models import PeriodicTask,CrontabSchedule
 import json
 
 
-#celery function to
+#celery function to send mail
 
 def send_mail_to_parent(request):
     send_mail_based_on_dates.delay() 
-    return HttpResponse("done")
+    return JsonResponse({"message": "Email sending initiated."}, status=200)
 
+
+#function to set vaccination dates
+
+def vaccination_dates_view(request, child_id):
+    child = get_object_or_404(Child, pk=child_id)
+    vaccination_dates = child.get_vaccination_dates()
+
+    # Example: Convert vaccination dates to strings for JSON response
+    vaccination_dates_str = [str(date) for date in vaccination_dates]
+
+    return JsonResponse({'vaccination_dates': vaccination_dates_str})
 

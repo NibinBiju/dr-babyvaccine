@@ -71,6 +71,18 @@ class Child(models.Model):
     @property
     def age_in_day(self):
         return (date.today() - self.date_of_birth).days  # returns age in days
+    #dates
+    def get_vaccination_dates(self):
+        return [
+            
+            self.date_of_birth + timedelta(days=40),
+            self.date_of_birth + timedelta(days=67),
+            self.date_of_birth + timedelta(days=70),
+            self.date_of_birth + timedelta(days=89),
+            self.date_of_birth + timedelta(days=180),
+            self.date_of_birth + timedelta(days=304),
+            self.date_of_birth + timedelta(days=363)
+        ]
 
     def __str__(self):
         return f'{self.last_name} {self.first_name} | {self.date_of_birth}'
