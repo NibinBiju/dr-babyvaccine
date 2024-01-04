@@ -5,10 +5,14 @@ urlpatterns=[
     path('authtoken/',Registeruser.as_view()),
     path('authlogin/',LoginView.as_view(),name='logins'),
     path('logoutt/',logoutview.as_view),
+    
+    #view all child,and post child detail
 
-    path('children/', ChildListCreateView.as_view(), name='child-list'),
-    path('children/<int:pk>/', ChildDetailView.as_view(), name='child-detail'),
-
+    path('childcreate/', ChildListCreateView.as_view(), name='child-list'),
+    
+    #get one child,udate,delete
+    path('modifychildren/<int:pk>/', ChildDetailView.as_view(), name='child-detail'),
+#
     path('vax-program-names/', VaxProgramNameListCreateView.as_view(), name='vax-program-name-list'),
     path('vax-program-names/<int:pk>/', VaxProgramNameDetailView.as_view(), name='vax-program-name-detail'),
 
@@ -26,11 +30,13 @@ urlpatterns=[
 
     path('vaxes/', VaxListCreateView.as_view(), name='vax-list'),
     path('vaxes/<int:pk>/', VaxDetailView.as_view(), name='vax-detail'),
+    #
 
-    
+    #notification
     path('send_mail_date/',send_mail_to_parent),
     
-
+    #dates
+    path('childcreate/<int:child_id>/vaccination-dates/',vaccination_dates_view, name='vaccination_dates')
 
 
 

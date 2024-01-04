@@ -65,9 +65,21 @@ class loginserializer(serializers.Serializer):
 
 
 class ChildSerializer(serializers.ModelSerializer):
+    parent_username = serializers.CharField(write_only=True, source='parent')
+
     class Meta:
         model = Child
-        fields = '__all__'
+        fields = ['id', 'first_name', 'last_name', 'date_of_birth', 'sex', 'parent_username']
+
+    def create(self, validated_data):
+        parent_username = validated_data.pop('parent')
+        parent_user = User.objects.get(username=parent_username)
+
+        child = Child.objects.create(
+            parent=parent_user,
+            **validated_data
+        )
+        return child
 
 class VaxProgramSerializer(serializers.ModelSerializer):
     class Meta:
